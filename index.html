@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>我的个人网站</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            color: white;
+        }
+        
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+        
+        .header h1 {
+            font-size: 3em;
+            margin-bottom: 10px;
+            animation: fadeInUp 1s ease-out;
+        }
+        
+        .header p {
+            font-size: 1.2em;
+            opacity: 0.9;
+            animation: fadeInUp 1s ease-out 0.2s both;
+        }
+        
+        .content-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+        
+        .card {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            padding: 30px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            animation: fadeInUp 1s ease-out 0.4s both;
+        }
+        
+        .card h2 {
+            margin-bottom: 15px;
+            color: #ffd700;
+        }
+        
+        .card p {
+            line-height: 1.6;
+            opacity: 0.9;
+        }
+        
+        .deployment-status {
+            text-align: center;
+            background: rgba(76, 175, 80, 0.2);
+            border: 2px solid #4caf50;
+            border-radius: 10px;
+            padding: 20px;
+            animation: fadeInUp 1s ease-out 0.6s both;
+        }
+        
+        .deployment-status h3 {
+            color: #4caf50;
+            margin-bottom: 10px;
+        }
+        
+        .version-info {
+            margin-top: 20px;
+            font-family: monospace;
+            background: rgba(0, 0, 0, 0.2);
+            padding: 15px;
+            border-radius: 5px;
+        }
+        
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .update-button {
+            background: #ff6b6b;
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 25px;
+            font-size: 16px;
+            cursor: pointer;
+            margin: 10px;
+            transition: all 0.3s ease;
+        }
+        
+        .update-button:hover {
+            background: #ff5252;
+            transform: translateY(-2px);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>👋 欢迎来到我的个人网站</h1>
+            <p>这是一个通过CI/CD自动部署的现代化网站</p>
+        </div>
+        
+        <div class="content-grid">
+            <div class="card">
+                <h2>🚀 关于我</h2>
+                <p>我是一名正在学习现代化开发技术的程序员。这个网站展示了我掌握的CI/CD自动化部署技能。</p>
+                <p><strong>技能：</strong>HTML, CSS, JavaScript, Git, GitHub Actions</p>
+            </div>
+            
+            <div class="card">
+                <h2>💻 项目经验</h2>
+                <p><strong>个人作品集网站</strong></p>
+                <p>• 使用HTML5/CSS3构建响应式界面</p>
+                <p>• 集成GitHub Actions实现CI/CD</p>
+                <p>• 自动部署到GitHub Pages</p>
+                <p>• 每次代码更新都会自动发布</p>
+            </div>
+            
+            <div class="card">
+                <h2>🎯 学习目标</h2>
+                <p>通过这个实践项目，我学会了：</p>
+                <p>• Git版本控制和GitHub协作</p>
+                <p>• 自动化部署的基本概念</p>
+                <p>• CI/CD流水线的构建方法</p>
+                <p>• 现代化前端开发工作流程</p>
+            </div>
+        </div>
+        
+        <div class="deployment-status">
+            <h3>✅ 自动部署状态：成功</h3>
+            <p>这个网站由GitHub Actions自动构建和部署</p>
+            <button class="update-button" onclick="updateTime()">刷新部署时间</button>
+            <div class="version-info">
+                <div>🕒 最后更新：<span id="deploy-time"></span></div>
+                <div>📦 版本：v1.0.0</div>
+                <div>🌐 环境：Production</div>
+                <div>⚡ 部署方式：GitHub Actions</div>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        // 显示部署时间
+        function updateTime() {
+            document.getElementById('deploy-time').textContent = 
+                new Date().toLocaleString('zh-CN');
+        }
+        
+        // 页面加载时显示时间
+        window.addEventListener('load', updateTime);
+        
+        // 简单的交互效果
+        document.querySelectorAll('.card').forEach(card => {
+            card.addEventListener('mouseenter', function() {
+                this.style.transform = 'translateY(-5px)';
+            });
+            
+            card.addEventListener('mouseleave', function() {
+                this.style.transform = 'translateY(0)';
+            });
+        });
+    </script>
+</body>
+</html>

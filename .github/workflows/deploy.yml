@@ -1,0 +1,80 @@
+name: 🚀 自动部署个人网站
+
+# 什么时候触发部署
+on:
+  push:
+    branches: [ main ]
+
+# 设置权限
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    
+    steps:
+    # 步骤1：获取代码
+    - name: 📥 获取网站代码
+      uses: actions/checkout@v4
+      
+    # 步骤2：检查网站文件
+    - name: ✅ 检查网站文件
+      run: |
+        echo "🔍 检查网站是否完整..."
+        
+        if [ -f "index.html" ]; then
+          echo "✅ 主页文件存在"
+        else
+          echo "❌ 找不到主页文件"
+          exit 1
+        fi
+        
+        # 检查HTML基本结构
+        if grep -q "<title>" index.html; then
+          echo "✅ 网站有标题"
+        else
+          echo "⚠️  建议添加网站标题"
+        fi
+        
+        if grep -q "<h1>" index.html; then
+          echo "✅ 网站有主标题"
+        else
+          echo "⚠️  建议添加主标题"
+        fi
+        
+        echo "🎉 网站检查完成！"
+    
+    # 步骤3：网站统计信息
+    - name: 📊 网站统计
+      run: |
+        echo "📊 网站构建信息："
+        echo "文件数量：$(find . -name "*.html" -o -name "*.css" -o -name "*.js" | wc -l)"
+        echo "HTML行数：$(wc -l < index.html)"
+        echo "构建时间：$(date)"
+        echo "提交版本：${GITHUB_SHA:0:8}"
+        echo "提交者：${{ github.actor }}"
+    
+    # 步骤4：配置GitHub Pages
+    - name: ⚙️ 配置部署环境
+      uses: actions/configure-pages@v5
+      
+    # 步骤5：打包网站文件
+    - name: 📦 打包网站
+      uses: actions/upload-pages-artifact@v3
+      with:
+        path: ./
+        
+    # 步骤6：部署到GitHub Pages
+    - name: 🌐 发布网站
+      id: deployment
+      uses: actions/deploy-pages@v4
+      
+    # 步骤7：部署成功通知
+    - name: 🎉 部署完成
+      run: |
+        echo "✅ 网站部署成功！"
+        echo "🌐 访问地址：${{ steps.deployment.outputs.page_url }}"
+        echo "🚀 你的网站现在已经在线了！"
